@@ -29,7 +29,7 @@ else
                     <td>@forecast.Date.ToShortDateString()</td>
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
-                    <td>@{forecast.Summary ??= ("no data");}</td>
+                    <td>@forecast.Summary</td>
                 </tr>
             }
         </tbody>
@@ -50,10 +50,9 @@ else
         {
             Date = startDate.AddDays(index),
             TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = null
-            //summaries[Random.Shared.Next(summaries.Length)]
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
         }).ToArray();
-    } 
+    }
 
     private class WeatherForecast
     {

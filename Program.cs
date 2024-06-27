@@ -1,5 +1,5 @@
 using SmartWorkout.Components;
-
+using SmartWorkoutDataAccess;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +7,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
-
+builder.Services.AddDbContext<SmartWorkoutContext>();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
