@@ -1,20 +1,17 @@
-﻿.background {
-
-}
-
-
-.title {
+﻿.title {
     border-radius: 25px;
     background: #333399;
     padding: 20px;
-    width: 200px;
-    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
-    font-size: 50px; /* Adjust the font size as needed */
+    width: fit-content;
+    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7),
+        -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+    font-size: 50px;
     font-weight: bold;
+    color: white;
     display: flex;
-    align-items: center; /* Align vertically centered */
-    justify-content: flex-start; /* Align text to the left */
-    height: 100px; /* Example height for demonstration */
+    align-items: center;
+    justify-content: flex-start; 
+    height: 100px; 
 }
 
 .container {
@@ -24,28 +21,28 @@
     width: 550px;
     margin-top: 50px;
     margin-right: 50px;
-    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7),
+        -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
     float: left;
-    /* Flexbox properties */
     display: flex;
-    align-items: center; /* Vertical alignment */
+    align-items: center; 
 }
 div.details{
     flex: 1;
 }
 .image {
-    flex: 0 0 auto; /* Prevent image from growing */
-    margin-right: 20px; /* Spacing between image and text */
+    flex: 0 0 auto; 
+    margin-right: 20px;
 }
-
     .image img {
-        max-width: 100%; /* Ensure image doesn't overflow */
+        max-width: 100%; 
         height: auto;
-        border-radius: 50%; /* Rounded image (example) */
+        border-radius: 50%;
     }
 
 div.component {
-    font-size: large;
+    font-size: larger;
     font-weight: bold;
-    margin-left: 20px; /* Add margin to separate from image */
+    color:white;
+    margin-left: 20px;
 }

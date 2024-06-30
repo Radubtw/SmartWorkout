@@ -6,62 +6,61 @@
 
 <PageTitle>Users</PageTitle>
 
-<div class="background">
-    <div class="title">Users</div>
+<div class="title">Users</div>
 
-    @if (users == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        foreach (var user in users){
-            <div class="container">
-                 <div class="image">
-                    <img src="/Images/User_icon.png" alt="User Image" />
-                </div>
-                <div class="details">
-                    <div class="component">Id: @user.Id</div>
-                    <div class="component">Name: @user.Name</div>
-                    <div class="component">Surname: @user.Surname</div>
-                    <div class="component">Phone:@if (user.Phone != null)
-                        {
-                            @user.Phone
-                        }
-                        else
-                        {
-                            <span>No data</span>
-                        }</div>
-                    <div class="component">Email: @if (user.Email != null)
-                        {
-                            @user.Email
-                        }
-                        else
-                        {
-                            <span>No data</span>
-                        }</div>
-                    <div class="component">Age:@if (user.Age != null)
-                        {
-                            @user.Age
-                        }
-                        else
-                        {
-                            <span>No data</span>
-                        }</div>
-                    <div class="component">Weight:@if (user.Weight != null)
-                        {
-                            @user.Weight
-                        }
-                        else
-                        {
-                            <span>No data</span>
-                        }</div>
-                </div>
-           
+@if (users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    foreach (var user in users){
+        <div class="container">
+            <div class="image">
+                <img src="/Images/User_icon.png" alt="User Image" />
             </div>
-        }
+            <div class="details">
+                <div class="component">ID: @user.Id</div>
+                <div class="component">Name: @user.Name</div>
+                <div class="component">Surname: @user.Surname</div>
+                <div class="component">Phone:@if (user.Phone != null)
+                    {
+                        @user.Phone
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }</div>
+                <div class="component">Email: @if (user.Email != null)
+                    {
+                        @user.Email
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }</div>
+                <div class="component">Age:@if (user.Age != null)
+                    {
+                        @user.Age
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }</div>
+                <div class="component">Weight:@if (user.Weight != null)
+                    {
+                        @user.Weight
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+                    </div>
+            </div>
+           
+        </div>
     }
-</div>
+}
 @code {
     private IEnumerable<User>? users;
 

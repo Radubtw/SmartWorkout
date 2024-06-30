@@ -48,6 +48,7 @@
 
 .nav-item {
     font-size: 0.9rem;
+    font-weight:bold;
     padding-bottom: 0.5rem;
 }
 
@@ -102,4 +103,11 @@
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
     }
+}
+
+.nav-icon {
+    width: 25px; /* Adjust width as needed */
+    height: 25px; /* Adjust height as needed */
+    margin-right: 8px; /* Space between the icon and text */
+    vertical-align: middle; /* Align the icon vertically with the text */
 }

@@ -6,7 +6,7 @@
 
 <PageTitle>Exercises</PageTitle>
 
-<h1>Exercises</h1>
+<div class="title">Exercises</div>
 
 @if (exercises == null)
 {
@@ -14,34 +14,22 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>               
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var exercise in exercises)
-            {
-                <tr>
-                    <td>@exercise.Id</td>
-                    <td>@exercise.Name</td>
-                    
-                </tr>
-            }
-        </tbody>
-    </table>
+    foreach (var exercise in exercises)
+    {
+        <div class="container">
+            <div class="component">ID: @exercise.Id </div>
+            <div class="component">Name: @exercise.Name</div>
+        </div>
+    }
 }
-
 @code {
     private IEnumerable<Exercise>? exercises;
 
     protected override async Task OnInitializedAsync()
     {
-
         ExerciseRepository exerciseRepository = new ExerciseRepository();
         exercises = await exerciseRepository.GetAll();
+
     }
 
 }
