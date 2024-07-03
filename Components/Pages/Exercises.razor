@@ -4,11 +4,19 @@
 @using SmartWorkoutDataAccess
 @using SmartWorkoutDataAccess.Repositories
 @inject IGenericRepository<Exercise> exercise_repo
+@inject NavigationManager NavManager
 
 <PageTitle>Exercises</PageTitle>
-
-<div class="title">Exercises</div>
-
+<div class="header">
+    <div class="title">Exercises</div>
+    <div class="search_add_container">
+        <div class="search_container">
+            <input class="search_input" @bind="searchQuery" placeholder="Search..." />
+            <button class="search_button" @onclick="Search">Search</button>
+        </div>
+        <button type="button" class="add_exercise_button" @onclick="AddExercise">Add Exercise</button>
+    </div>
+</div>
 @if (exercises == null)
 {
     <p><em>Loading...</em></p>
@@ -18,19 +26,51 @@ else
     foreach (var exercise in exercises)
     {
         <div class="container">
-            <div class="component">ID: @exercise.Id </div>
-            <div class="component">Name: @exercise.Name</div>
+            <div class="details">
+                <div class="component">ID: @exercise.Id</div>
+                <div class="component">Name: @exercise.Name</div>
+                <div class="buttons_div">
+                    <button type="button" class="update_button" @onclick="() => UpdateExercise(exercise.Id)">Update</button>
+                    <button type="button" class="delete_button" @onclick="() => DeleteExercise(exercise.Id)">Delete</button>
+
+                </div>
+            </div>
         </div>
     }
 }
 @code {
     private IEnumerable<Exercise>? exercises;
+    private string searchQuery = "";
 
     protected override async Task OnInitializedAsync()
     {
-        //ExerciseRepository exerciseRepository = new ExerciseRepository();
         exercises = await exercise_repo.GetAll();
-
     }
-
+    void AddExercise()
+    {
+        NavManager.NavigateTo("/addExerciseForm");
+    }
+    void UpdateExercise(int id)
+    {
+        NavManager.NavigateTo($"/updateExerciseFormId={id}");
+    }
+    void DeleteExercise(int id)
+    {
+        exercise_repo.Delete(id);
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+    }
+    private async Task Search()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            exercises = await exercise_repo.GetAll();
+        }
+        else
+        {
+            exercises = (await exercise_repo.GetAll())
+                .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
 }

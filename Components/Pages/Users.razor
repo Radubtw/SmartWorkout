@@ -5,7 +5,6 @@
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
 @using SmartWorkoutDataAccess.Repositories
-    @*@attribute [StreamRendering]*@
 
 <PageTitle>Users</PageTitle>
 <div class="header">
@@ -85,11 +84,11 @@ else
     }
     void AddUser()
     {
-        NavManager.NavigateTo("/form");
+        NavManager.NavigateTo("/addUserForm");
     }
     void UpdateUser(int id)
     {
-        NavManager.NavigateTo($"/updateform{id}");
+        NavManager.NavigateTo($"/updateUserFormId={id}");
     }
     void DeleteUser(int id)
     {

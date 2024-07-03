@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; /* Adjust as needed for spacing */
+    margin-bottom: 70px; /* Adjust as needed for spacing */
     border-radius: 25px;
     background-color: #333399;
     box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
@@ -46,7 +46,7 @@
     padding: 20px;
     width: 550px; /* Fixed width */
     height: 330px; /* Fixed height */
-    margin-top: 50px;
+    margin-bottom: 50px;
     margin-right: 50px;
     box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
     float: left;
@@ -76,6 +76,7 @@ div.component {
 .buttons_div {
     display: flex;
     align-items: center;
+    margin-top:10px;
     margin-bottom: 20px; /* Adjust as needed for spacing */
 }
 

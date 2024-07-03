@@ -1,0 +1,37 @@
+﻿@page "/addExerciseForm"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<Exercise> exercise_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+<div class="form_container">
+    <div class="form_title">Add Exercise</div>
+
+    <EditForm Model="@exercise" OnValidSubmit="@Submit" FormName="exercise_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form_input">
+            <div>Name</div>
+            <InputText @bind-Value="exercise.Name" />
+            <ValidationMessage For="@(() => exercise.Name)" />
+        </div>
+        <button class="add_button" type="submit">Add</button>
+        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    Exercise exercise = new Exercise();
+    void Submit()
+    {
+        exercise_repo.Add(exercise);
+        NavManager.NavigateTo("/exercises");
+    }
+    void Cancel()
+    {
+        NavManager.NavigateTo("/exercises");
+
+    }
+}
