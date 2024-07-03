@@ -1,0 +1,14 @@
+D:\VS_repos\SmartWorkoutDataAcces\bin\Debug\net8.0\SmartWorkoutDataAccess.deps.json
+D:\VS_repos\SmartWorkoutDataAcces\bin\Debug\net8.0\SmartWorkoutDataAccess.runtimeconfig.json
+D:\VS_repos\SmartWorkoutDataAcces\bin\Debug\net8.0\SmartWorkoutDataAccess.dll
+D:\VS_repos\SmartWorkoutDataAcces\bin\Debug\net8.0\SmartWorkoutDataAccess.pdb
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.csproj.AssemblyReference.cache
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.GeneratedMSBuildEditorConfig.editorconfig
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.AssemblyInfoInputs.cache
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.AssemblyInfo.cs
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.csproj.CoreCompileInputs.cache
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.dll
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\refint\SmartWorkoutDataAccess.dll
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.pdb
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\SmartWorkoutDataAccess.genruntimeconfig.cache
+D:\VS_repos\SmartWorkoutDataAcces\obj\Debug\net8.0\ref\SmartWorkoutDataAccess.dll
