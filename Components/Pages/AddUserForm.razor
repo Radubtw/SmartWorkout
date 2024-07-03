@@ -1,0 +1,59 @@
+﻿@page "/form"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer 
+
+<div class="form_container">
+    <div class="form_title">Add User</div>
+
+    <EditForm Model="@user" OnValidSubmit="@Submit" FormName="user_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form_input">
+            <div>Name</div>
+            <InputText @bind-Value="user.Name" />
+            <ValidationMessage For="@(() => user.Name)" />
+        </div>
+        <div class="form_input">
+            <div>Surname</div>
+            <InputText @bind-Value="user.Surname" />
+            <ValidationMessage For="@(() => user.Surname)" />
+        </div>
+        <div class="form_input">
+            <div>Phone</div>
+            <InputText @bind-Value="user.Phone" />
+        </div>
+        <div class="form_input">
+            <div>Email</div>
+            <InputText @bind-Value="user.Email" />
+        </div>
+        <div class="form_input">
+            <div>Age</div>
+            <InputNumber @bind-Value="user.Age" />
+        </div>
+        <div class="form_input">
+            <div>Weight</div>
+            <InputNumber @bind-Value="user.Weight" />
+        </div>
+        <button class="add_button" type="submit">Add</button>
+        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    User user = new User();
+    void Submit()
+    {
+        user_repo.Add(user);
+        user_repo.Save();
+        NavManager.NavigateTo("/users");
+    }
+    void Cancel()
+    {
+        NavManager.NavigateTo("/users");
+
+    }
+}

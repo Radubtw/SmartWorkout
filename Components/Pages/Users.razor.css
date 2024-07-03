@@ -1,38 +1,65 @@
-﻿.title {
+﻿.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+    border-radius: 25px;
+    background-color: #333399;
+    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+}
+.search_add_container {
+    display: flex;
+    align-items: center;
+}
+
+.title {
     border-radius: 25px;
     background: #333399;
     padding: 20px;
     width: fit-content;
-    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7),
-        -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
     font-size: 50px;
     font-weight: bold;
     color: white;
     display: flex;
     align-items: center;
-    justify-content: flex-start; 
-    height: 100px; 
+    justify-content: flex-start;
+    height: 100px;
+    margin-right: 20px; /* Adjust as needed for spacing */
 }
-
+.add_user_button {
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+    .add_user_button:hover {
+        background-color: #3a6682; /* Darker red on hover */
+    }
 .container {
     border-radius: 25px;
     background: #333399;
     padding: 20px;
-    width: 550px;
+    width: 550px; /* Fixed width */
+    height: 330px; /* Fixed height */
     margin-top: 50px;
     margin-right: 50px;
-    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7),
-        -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
     float: left;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
+
 div.details{
     flex: 1;
 }
 .image {
     flex: 0 0 auto; 
-    margin-right: 20px;
+    margin-right: 0px;
 }
     .image img {
         max-width: 100%; 
@@ -46,3 +73,68 @@ div.component {
     color:white;
     margin-left: 20px;
 }
+.buttons_div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Adjust as needed for spacing */
+}
+
+.delete_button {
+    background-color: #ff4d4d; /* Red background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding inside the button */
+    margin-left: 10px;
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    font-weight: bold;
+}
+
+    .delete_button:hover {
+        background-color: #e60000; /* Darker red on hover */
+    }
+.update_button {
+    background-color: #4682b4; /* Red background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    margin-left:10px;
+    padding: 10px 20px; /* Padding inside the button */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    font-weight: bold;
+}
+    .update_button:hover {
+        background-color: #3a6682; /* Darker red on hover */
+    }
+.search_container {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-right: 20px;
+    background-color: #333399;
+}
+
+.search_input {
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.search_button {
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+    .search_button:hover {
+        background-color: #3a6682;
+    }

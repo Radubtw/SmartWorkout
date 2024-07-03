@@ -3,6 +3,7 @@
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
 @using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<Exercise> exercise_repo
 
 <PageTitle>Exercises</PageTitle>
 
@@ -27,8 +28,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ExerciseRepository exerciseRepository = new ExerciseRepository();
-        exercises = await exerciseRepository.GetAll();
+        //ExerciseRepository exerciseRepository = new ExerciseRepository();
+        exercises = await exercise_repo.GetAll();
 
     }
 

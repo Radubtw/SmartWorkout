@@ -1,13 +1,23 @@
 ﻿@page "/users"
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
 @using SmartWorkoutDataAccess.Repositories
-@attribute [StreamRendering]
+    @*@attribute [StreamRendering]*@
 
 <PageTitle>Users</PageTitle>
-
-<div class="title">Users</div>
-
+<div class="header">
+    <div class="title">Users</div>
+    <div class="search_add_container">
+        <div class="search_container">
+            <input class="search_input" @bind="searchQuery" placeholder="Search..." />
+            <button class="search_button" @onclick="Search">Search</button>
+        </div>
+        <button type="button" class="add_user_button" @onclick="AddUser">Add User</button>
+    </div>
+</div>
 @if (users == null)
 {
     <p><em>Loading...</em></p>
@@ -23,7 +33,7 @@ else
                 <div class="component">ID: @user.Id</div>
                 <div class="component">Name: @user.Name</div>
                 <div class="component">Surname: @user.Surname</div>
-                <div class="component">Phone:@if (user.Phone != null)
+                <div class="component">Phone: @if (user.Phone != null)
                     {
                         @user.Phone
                     }
@@ -39,7 +49,7 @@ else
                     {
                         <span>No data</span>
                     }</div>
-                <div class="component">Age:@if (user.Age != null)
+                <div class="component">Age: @if (user.Age != null)
                     {
                         @user.Age
                     }
@@ -47,7 +57,7 @@ else
                     {
                         <span>No data</span>
                     }</div>
-                <div class="component">Weight:@if (user.Weight != null)
+                <div class="component">Weight: @if (user.Weight != null)
                     {
                         @user.Weight
                     }
@@ -56,19 +66,51 @@ else
                         <span>No data</span>
                     }
                     </div>
+                <div class="buttons_div">
+                    <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Update</button>
+                    <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Delete</button>
+
+                </div>
             </div>
-           
         </div>
     }
 }
 @code {
     private IEnumerable<User>? users;
+    private string searchQuery = "";
 
     protected override async Task OnInitializedAsync()
     {
-        UserRepository userRepository = new UserRepository();
-        users = await userRepository.GetAll();
-       
+         users = await user_repo.GetAll();
     }
-
+    void AddUser()
+    {
+        NavManager.NavigateTo("/form");
+    }
+    void UpdateUser(int id)
+    {
+        NavManager.NavigateTo($"/updateform{id}");
+    }
+    void DeleteUser(int id)
+    {
+        user_repo.Delete(id);
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+    }
+    private async Task Search()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            users = await user_repo.GetAll();
+        }
+        else
+        {
+            users = (await user_repo.GetAll())
+                .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Surname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Email.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }   
 }
+    
