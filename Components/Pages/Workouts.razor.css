@@ -6,7 +6,9 @@
     border-radius: 25px;
     background-color: #333399;
     box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+    height:fit-content;
 }
+
 .search_add_container {
     display: flex;
     align-items: center;
@@ -23,10 +25,11 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 100px;
+    height: fit-content;
     margin-right: 20px; /* Adjust as needed for spacing */
 }
-.add_user_button {
+
+.add_workout_button {
     background-color: #4682b4;
     color: white;
     border: none;
@@ -37,15 +40,17 @@
     font-weight: bold;
     margin-right: 30px;
 }
-    .add_user_button:hover {
+
+    .add_workout_button:hover {
         background-color: #3a6682; /* Darker red on hover */
     }
+
 .container {
     border-radius: 25px;
     background: #333399;
     padding: 20px;
-    width: 550px; /* Fixed width */
-    height: 400px; /* Fixed height */
+    width: fit-content; /* Fixed width */
+    height: fit-content; /* Fixed height */
     margin-bottom: 50px;
     margin-right: 50px;
     box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
@@ -54,31 +59,23 @@
     align-items: center;
 }
 
-div.details{
+div.details {
     flex: 1;
 }
-.image {
-    flex: 0 0 auto; 
-    margin-right: 0px;
-}
-    .image img {
-        max-width: 100%; 
-        height: auto;
-        border-radius: 50%;
-    }
 
 div.component {
     font-size: larger;
     font-weight: bold;
-    color:white;
+    color: white;
     margin-left: 20px;
 }
+
 .buttons_div {
     display: flex;
     align-items: center;
-    margin-top:10px;
+    margin-top: 10px;
     margin-bottom: 20px;
-    width:170px;
+    width: 170px;
 }
 
 .delete_button {
@@ -95,20 +92,8 @@ div.component {
     .delete_button:hover {
         background-color: #e60000; /* Darker red on hover */
     }
-.update_button {
-    background-color: #4682b4; /* Red background color */
-    color: white; /* White text color */
-    border: none; /* Remove border */
-    margin-left:10px;
-    padding: 10px 20px; /* Padding inside the button */
-    border-radius: 20px; /* Rounded corners */
-    cursor: pointer; /* Cursor style on hover */
-    font-weight: bold;
-}
-    .update_button:hover {
-        background-color: #3a6682; /* Darker red on hover */
-    }
-.view_workouts_button {
+
+.edit_button {
     background-color: #4682b4; /* Red background color */
     color: white; /* White text color */
     border: none; /* Remove border */
@@ -117,12 +102,28 @@ div.component {
     border-radius: 20px; /* Rounded corners */
     cursor: pointer; /* Cursor style on hover */
     font-weight: bold;
-    width:170px;
 }
 
-    .view_workouts_button:hover {
+    .edit_button:hover {
         background-color: #3a6682; /* Darker red on hover */
     }
+
+.view_exercises_button {
+    background-color: #4682b4; /* Red background color */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    margin-left: 10px;
+    padding: 10px 20px; /* Padding inside the button */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    font-weight: bold;
+    width: 170px;
+}
+
+    .view_exercises_button:hover {
+        background-color: #3a6682; /* Darker red on hover */
+    }
+
 .search_container {
     display: flex;
     align-items: center;

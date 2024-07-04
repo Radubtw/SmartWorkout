@@ -30,10 +30,7 @@ namespace SmartWorkoutDataAccess.Repositories
         {
             return await context.Users.ToArrayAsync();
         }
-        public async Task<IEnumerable<Workout>> GetAllWorkouts(User user)
-        {
-            return user.Workouts;
-        }
+
         public async Task<User> GetById(int id)
         {
             return await context.Users.FirstOrDefaultAsync(e => e.Id == id);
@@ -52,6 +49,7 @@ namespace SmartWorkoutDataAccess.Repositories
             await context.SaveChangesAsync();
             return result.Entity;
         }
+
         public async Task<User> Update(User user)
         {
             var result = await context.Users

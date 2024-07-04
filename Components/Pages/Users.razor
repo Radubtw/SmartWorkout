@@ -66,10 +66,10 @@ else
                     }
                     </div>
                 <div class="buttons_div">
-                    <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Update</button>
+                    <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Edit</button>
                     <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Delete</button>
-
                 </div>
+                <button type="button" class="view_workouts_button" @onclick="()=>ViewWorkouts(user.Id)">View Workouts</button>
             </div>
         </div>
     }
@@ -80,7 +80,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-         users = await user_repo.GetAll();
+        users = await user_repo.GetAll();
     }
     void AddUser()
     {
@@ -95,6 +95,10 @@ else
         user_repo.Delete(id);
         NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
     }
+    void ViewWorkouts(int id)
+    {
+        NavManager.NavigateTo($"/workoutsUserId={id}");
+    }
     private async Task Search()
     {
         if (string.IsNullOrWhiteSpace(searchQuery))
@@ -106,10 +110,9 @@ else
             users = (await user_repo.GetAll())
                 .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                             u.Surname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                            u.Email.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                             u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
     }   
-}
+}   
     

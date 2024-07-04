@@ -1,0 +1,52 @@
+﻿@page "/updateWorkoutFormId={id}UserId={userId}"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<Exercise> user_repo
+@inject IWorkoutRepository workout_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+<div class="form_container">
+    <div class="form_title">Update Exercise</div>
+
+    <EditForm Model="@workout" OnValidSubmit="Submit" FormName="workout_update">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form_input">
+            <div>Duration</div>
+            <InputNumber @bind-Value="workout.Duration" />
+            @*<ValidationMessage For="@(() => exercise.Name)" />*@
+        </div>
+        <div class="form_input">
+            <div>Date</div>
+            <InputDate @bind-Value="workout.Date" />
+            @*<ValidationMessage For="@(() => exercise.Name)" />*@
+        </div>
+        <button class="update_button" type="submit">Update</button>
+        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+    </EditForm>
+</div>
+@code {
+    Workout workout = new Workout();
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string userId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        int Id = Convert.ToInt32(id);
+        workout = await workout_repo.GetById(Id);
+    }
+
+    void Submit()
+    {
+        workout_repo.Update(workout);
+        NavManager.NavigateTo($"/workoutsUserId={userId}");
+    }
+    void Cancel()
+    {
+        NavManager.NavigateTo($"/workoutsUserId={id}");
+    }
+}

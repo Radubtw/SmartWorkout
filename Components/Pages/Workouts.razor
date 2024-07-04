@@ -1,0 +1,97 @@
+﻿@page "/workoutsUserId={userId}"
+@inject IGenericRepository<User> user_repo
+@inject IWorkoutRepository workout_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+
+<PageTitle>Workouts</PageTitle>
+<div class="header">
+    <div class="title">@(user.Name)'s Workouts</div>
+    <div class="search_add_container">
+        <div class="search_container">
+            <input class="search_input" @bind="searchQuery" placeholder="Search..." />
+            <button class="search_button" @onclick="Search">Search</button>
+        </div>
+        <button type="button" class="add_workout_button" @onclick="() => AddWorkout(user.Id)">Add Workout</button>
+    </div>
+</div>
+@if (workouts == null)
+{
+    <p><em>No workouts yet!</em></p>
+}
+else
+{
+    foreach (var workout in workouts)
+    {
+        <div class="container">
+            <div class="details">
+                <div class="component">ID: @workout.Id</div>
+                <div class="component">
+                    Duration: @if (workout.Duration != null)
+                    {
+                        @workout.Duration
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+                </div>
+                <div class="component">Date: @workout.Date.ToShortDateString()</div>
+                <div class="buttons_div">
+                    <button type="button" class="edit_button" @onclick="() => UpdateWorkout(workout.Id)">Edit</button>
+                    <button type="button" class="delete_button" @onclick="() => DeleteWorkout(workout.Id)">Delete</button>
+                </div>
+                <button type="button" class="view_exercises_button" @onclick="()=>ViewExercises(workout.Id)">View Exercises</button>
+            </div>
+        </div>
+    }
+}
+@code {
+    private IEnumerable<Workout>? workouts;
+    private User user = new User();
+    [Parameter]
+    public string userId { get; set; }
+    private string searchQuery = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        int userId_int = Convert.ToInt32(userId);
+        user = await user_repo.GetById(userId_int);
+        workouts = await workout_repo.GetWorkoutsByUserId(userId_int);
+    }
+    void AddWorkout(int id)
+    {
+        NavManager.NavigateTo($"/addWorkoutFormUserId={id}");
+    }
+    void UpdateWorkout(int id)
+    {
+        NavManager.NavigateTo($"/updateWorkoutFormId={id}UserId={userId}");
+    }
+    void DeleteWorkout(int id)
+    {
+        workout_repo.Delete(id);
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+    }
+    void ViewExercises(int id)
+    {
+        //NavManager.NavigateTo($"/exercisesWorkoutId={id}");
+    }
+    private async Task Search()
+    {
+        @*if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            workouts = await workout_repo.GetAll();
+        }
+        else
+        {
+            workout = (await user_repo.GetAll())
+                .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Surname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }*@
+    }
+}

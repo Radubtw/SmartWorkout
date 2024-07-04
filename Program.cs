@@ -2,7 +2,6 @@ using SmartWorkout.Components;
 using SmartWorkoutDataAccess;
 using SmartWorkoutDataAccess.Repositories;
 using SmartWorkoutDataAccess.Entities;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
 builder.Services.AddScoped<IGenericRepository<Exercise>, ExerciseRepository>();
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddDbContext<SmartWorkoutContext>();
 var app = builder.Build();
 

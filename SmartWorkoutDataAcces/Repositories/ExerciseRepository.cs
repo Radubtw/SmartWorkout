@@ -17,7 +17,7 @@ namespace SmartWorkoutDataAccess.Repositories
         }
         public async void Save()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
         public async Task<IEnumerable<Exercise>> GetAll()
         {

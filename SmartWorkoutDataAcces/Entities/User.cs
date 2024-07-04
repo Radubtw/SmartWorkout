@@ -21,6 +21,6 @@ namespace SmartWorkoutDataAccess.Entities
         public int? Age { get; set; }
         [Range(1, 300, ErrorMessage = "Weight should be between 1 and 300")]
         public double? Weight { get; set; }
-        public ICollection<Workout> Workouts { get; set; } = new HashSet<Workout>();
+        public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
     }
 }
