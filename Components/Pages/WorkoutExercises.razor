@@ -1,0 +1,126 @@
+﻿@page "/ExercisesWorkoutId={Id}"
+@inject IGenericRepository<User> user_repo
+@inject IWorkoutRepository workout_repo
+@inject IGenericRepository<Exercise> exercise_repo
+@inject IExercise_Log_Repository exercise_log_repo
+
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+
+<PageTitle>Workouts</PageTitle>
+<div class="header">
+    <div class="title">Exercises</div>
+        <button type="button" class="add_exercise_button" @onclick="() => AddExercise(workout.Id)">Add Exercise</button>
+</div>
+@if (exercise_logs == null)
+{
+    <p><em>No workouts yet!</em></p>
+}
+else
+{
+    foreach (var exercise_log in exercise_logs)
+    {
+        <div class="container">
+            <div class="details">
+                <div class="component">Exercise ID: @exercise_log.Exercise_Id</div>
+                <div class="component">Exercise Name: @exercise_log.Exercise.Name</div>
+                <div class="component">Sets:
+                    @if(exercise_log.Sets != null)
+                    {
+                        @exercise_log.Sets
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+                    
+                    </div>
+                <div class="component">
+                    Reps:
+                    @if (exercise_log.Reps != null)
+                    {
+                        @exercise_log.Reps
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+
+                </div>
+                <div class="component">
+                    Weight:
+                    @if (exercise_log.Weight!= null)
+                    {
+                        @exercise_log.Weight
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+
+                </div>
+                <div class="component">
+                    Duration:
+                    @if (exercise_log.Duration != null)
+                    {
+                        @exercise_log.Duration
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+
+                </div>
+                <div class="component">
+                    Distance:
+                    @if (exercise_log.Distance != null)
+                    {
+                        @exercise_log.Distance
+                    }
+                    else
+                    {
+                        <span>No data</span>
+                    }
+
+                </div>
+                <div class="buttons_div">
+                    <button type="button" class="edit_button" @onclick="() => UpdateExercise(workout.Id,exercise_log.Exercise_Id)">Edit</button>
+                    <button type="button" class="delete_button" @onclick="() => DeleteExercise(workout.Id ,exercise_log.Exercise.Id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    }
+}
+@code {
+    private IEnumerable<Exercise_Log>? exercise_logs;
+    private IEnumerable<Exercise>? exercises;
+    private User user = new User();
+    private Workout workout = new Workout();
+    [Parameter]
+    public string Id { get; set; }
+    private string searchQuery = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        int workoutId = Convert.ToInt32(Id);
+        exercise_logs = await exercise_log_repo.GetExerciseLogsWithExercisesByWorkoutId(workoutId);
+        workout = await workout_repo.GetById(workoutId);
+        exercises = await exercise_repo.GetAll();
+    }
+    void AddExercise(int id)
+    {
+        NavManager.NavigateTo($"/addExerciseLogFormWorkoutId={id}");
+    }
+    void UpdateExercise(int workoutId, int exerciseId)
+    {
+        NavManager.NavigateTo($"/updateWorkoutExerciseFormWorkout={Id}Exercise={exerciseId.ToString()}");
+    }
+    void DeleteExercise(int workoutId, int exerciseId)
+    {
+        exercise_log_repo.Delete(workoutId,exerciseId);
+        NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+    }
+}

@@ -9,14 +9,16 @@
 
 <PageTitle>Workouts</PageTitle>
 <div class="header">
-    <div class="title">@(user.Name)'s Workouts</div>
-    <div class="search_add_container">
-        <div class="search_container">
-            <input class="search_input" @bind="searchQuery" placeholder="Search..." />
-            <button class="search_button" @onclick="Search">Search</button>
-        </div>
-        <button type="button" class="add_workout_button" @onclick="() => AddWorkout(user.Id)">Add Workout</button>
+    <div class="title">@if (user != null)
+        {
+            @user.Name<span>'s Workouts</span>
+        }
+        else
+        {
+            <span>Workouts</span>
+        }
     </div>
+    <button type="button" class="add_workout_button" @onclick="() => AddWorkout(user.Id)">Add Workout</button>
 </div>
 @if (workouts == null)
 {
@@ -77,21 +79,6 @@ else
     }
     void ViewExercises(int id)
     {
-        //NavManager.NavigateTo($"/exercisesWorkoutId={id}");
-    }
-    private async Task Search()
-    {
-        @*if (string.IsNullOrWhiteSpace(searchQuery))
-        {
-            workouts = await workout_repo.GetAll();
-        }
-        else
-        {
-            workout = (await user_repo.GetAll())
-                .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                            u.Surname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                            u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }*@
+        NavManager.NavigateTo($"/exercisesWorkoutId={id}");
     }
 }

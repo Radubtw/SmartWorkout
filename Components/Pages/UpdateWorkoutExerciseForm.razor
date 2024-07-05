@@ -1,0 +1,93 @@
+﻿@page "/updateWorkoutExerciseFormWorkout={Id}Exercise={exerciseId}"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<Exercise> exercise_repo
+@inject IExercise_Log_Repository exercise_log_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+<div class="form_container">
+    <div class="form_title">Add Exercise Log</div>
+
+    <EditForm Model="@exerciseLog" OnValidSubmit="@Submit" FormName="exercise_log_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form_input">
+            <div>Exercise</div>
+            <InputSelect @bind-Value="exerciseLog.Exercise_Id">
+                <option value="">Select Exercise</option>
+                @if (exercises != null)
+                {
+                    @foreach (var exercise in exercises)
+                    {
+                        <option value="@exercise.Id">@exercise.Name</option>
+                    }
+                }
+                else
+                {
+                    <option disabled>Loading exercises...</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form_input">
+            <div>Sets</div>
+            <InputNumber @bind-Value="exerciseLog.Sets" />
+        </div>
+
+        <div class="form_input">
+            <div>Reps</div>
+            <InputNumber @bind-Value="exerciseLog.Reps" />
+        </div>
+
+        <div class="form_input">
+            <div>Weight</div>
+            <InputNumber @bind-Value="exerciseLog.Weight" />
+        </div>
+
+        <div class="form_input">
+            <div>Duration</div>
+            <InputNumber @bind-Value="exerciseLog.Duration" />
+        </div>
+
+        <div class="form_input">
+            <div>Distance</div>
+            <InputNumber @bind-Value="exerciseLog.Distance" />
+        </div>
+
+        <button class="add_button" type="submit">Edit</button>
+        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string ExerciseId{ get; set; }
+    private Exercise_Log exerciseLog = new Exercise_Log();
+    private IEnumerable<Exercise> exercises;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int workout_id = Convert.ToInt32(id);
+        int exercise_id = Convert.ToInt32(ExerciseId);
+
+        exercises = await exercise_repo.GetAll();
+        exerciseLog.Workout_Id = workout_id;
+        exerciseLog = await exercise_log_repo.GetExerciseLogByWorkoutAndExerciseId(workout_id, exercise_id);
+    }
+
+    private async Task Submit()
+    {
+        await exercise_log_repo.Update(exerciseLog);
+        NavManager.NavigateTo($"/ExercisesWorkoutId={id}");
+    }
+
+    private void Cancel()
+    {
+        NavManager.NavigateTo($"/ExercisesWorkoutId={id}");
+    }
+}

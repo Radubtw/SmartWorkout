@@ -11,6 +11,5 @@ namespace SmartWorkoutDataAccess.Repositories
     public interface IExerciseRepository : IGenericRepository<Exercise>
     {
         Task<Exercise> GetExerciseByName(string name);
-        
     }
 }

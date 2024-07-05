@@ -42,8 +42,11 @@ namespace SmartWorkoutDataAccess.Repositories
         }
         public async Task<IEnumerable<Workout>> GetWorkoutsByUserId(int userId)
         {
-            return await context.Workouts.Where(w => w.UserId == userId).ToListAsync();
-
+            return await context.Workouts
+                           .Where(w => w.UserId == userId)
+                           .Include(w => w.Exercise_Logs)
+                               .ThenInclude(el => el.Exercise)
+                           .ToListAsync();
         }
         public async Task<Workout> Add(Workout workout)
         {
