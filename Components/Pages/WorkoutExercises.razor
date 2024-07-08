@@ -25,7 +25,6 @@ else
     {
         <div class="container">
             <div class="details">
-                <div class="component">Exercise ID: @exercise_log.Exercise_Id</div>
                 <div class="component">Exercise Name: @exercise_log.Exercise.Name</div>
                 <div class="component">Sets:
                     @if(exercise_log.Sets != null)
@@ -109,6 +108,7 @@ else
         exercise_logs = await exercise_log_repo.GetExerciseLogsWithExercisesByWorkoutId(workoutId);
         workout = await workout_repo.GetById(workoutId);
         exercises = await exercise_repo.GetAll();
+
     }
     void AddExercise(int id)
     {

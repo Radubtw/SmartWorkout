@@ -11,15 +11,17 @@
     <div class="form_title">Add Exercise</div>
 
     <EditForm Model="@workout" OnSubmit="@Submit" FormName="exercise_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <div class="form_input">
             <div>Duration</div>
             <InputNumber @bind-Value="workout.Duration" />
-            @*<ValidationMessage For="@(() => workout.Duration)" />*@
+            <ValidationMessage For="@(() => workout.Duration)" />
         </div>
         <div class="form_input">
             <div>Date</div>
             <InputDate @bind-Value="workout.Date" />
-            @*  <ValidationMessage For="@(() => workout.Date)" />*@
+            <ValidationMessage For="@(() => workout.Date)" />
         </div>
 
        

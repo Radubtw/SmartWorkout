@@ -2,6 +2,7 @@ using SmartWorkout.Components;
 using SmartWorkoutDataAccess;
 using SmartWorkoutDataAccess.Repositories;
 using SmartWorkoutDataAccess.Entities;
+using MatBlazor;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +13,18 @@ builder.Services.AddScoped<IGenericRepository<Exercise>, ExerciseRepository>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddScoped<IExercise_Log_Repository, Exercise_Log_Repository>();
 builder.Services.AddDbContext<SmartWorkoutContext>();
+
+builder.Services.AddMatBlazor();
+builder.Services.AddMatToaster(config =>
+{
+    config.Position = MatToastPosition.BottomRight;
+    config.PreventDuplicates = true;
+    config.NewestOnTop = true;
+    config.ShowCloseButton = true;
+    config.MaximumOpacity = 95;
+    config.VisibleStateDuration = 3000;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

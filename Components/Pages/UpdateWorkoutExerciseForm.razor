@@ -35,26 +35,31 @@
         <div class="form_input">
             <div>Sets</div>
             <InputNumber @bind-Value="exerciseLog.Sets" />
+            <ValidationMessage For="@(() => exerciseLog.Sets)" />
         </div>
 
         <div class="form_input">
             <div>Reps</div>
             <InputNumber @bind-Value="exerciseLog.Reps" />
+            <ValidationMessage For="@(() => exerciseLog.Reps)" />
         </div>
 
         <div class="form_input">
             <div>Weight</div>
             <InputNumber @bind-Value="exerciseLog.Weight" />
+            <ValidationMessage For="@(() => exerciseLog.Weight)" />
         </div>
 
         <div class="form_input">
             <div>Duration</div>
             <InputNumber @bind-Value="exerciseLog.Duration" />
+            <ValidationMessage For="@(() => exerciseLog.Duration)" />
         </div>
 
         <div class="form_input">
             <div>Distance</div>
             <InputNumber @bind-Value="exerciseLog.Distance" />
+            <ValidationMessage For="@(() => exerciseLog.Distance)" />
         </div>
 
         <button class="add_button" type="submit">Edit</button>

@@ -1,11 +1,16 @@
 ﻿@page "/users"
 @inject IGenericRepository<User> user_repo
 @inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+@inject IMatDialogService MatDialogService
+
 @rendermode InteractiveServer
+@using BlazorBootstrap
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
-@using SmartWorkoutDataAccess.Repositories
 
+@using SmartWorkoutDataAccess.Repositories
+@using MatBlazor
 <PageTitle>Users</PageTitle>
 <div class="header">
     <div class="title">Users</div>
@@ -17,6 +22,14 @@
         <button type="button" class="add_user_button" @onclick="AddUser">Add User</button>
     </div>
 </div>
+@if (DisplayAlert)
+{
+    <div>
+        <Alert @ref="warningAlert" Color="AlertColor.Warning">
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below. <Button Color="ButtonColor.Primary" @onclick="CloseAlert">Close</Button>
+        </Alert>
+    </div>
+}
 @if (users == null)
 {
     <p><em>Loading...</em></p>
@@ -29,7 +42,6 @@ else
                 <img src="/Images/User_icon.png" alt="User Image" />
             </div>
             <div class="details">
-                <div class="component">ID: @user.Id</div>
                 <div class="component">Name: @user.Name</div>
                 <div class="component">Surname: @user.Surname</div>
                 <div class="component">Phone: @if (user.Phone != null)
@@ -74,9 +86,18 @@ else
         </div>
     }
 }
+
+
+
 @code {
     private IEnumerable<User>? users;
     private string searchQuery = "";
+    private int userIdToDelete;
+    public bool DisplayAlert { get; set; }
+
+    Alert warningAlert;
+    private async Task CloseAlert() => await warningAlert?.CloseAsync();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,10 +111,13 @@ else
     {
         NavManager.NavigateTo($"/updateUserFormId={id}");
     }
-    void DeleteUser(int id)
+
+    async void DeleteUser(int id)
     {
+        DisplayAlert = true;
         user_repo.Delete(id);
         NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+        StateHasChanged();
     }
     void ViewWorkouts(int id)
     {
