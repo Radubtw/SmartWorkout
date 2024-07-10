@@ -7,6 +7,9 @@ namespace SmartWorkoutDataAccess.Entities
     public class User
     {
         public int Id { get; set; }
+        public int RoleId { get; set; }
+        public int Trainer_Id { get; set; }
+        public string? Password { get; set; }
         [Required(ErrorMessage = "Name is required")]
         [RegularExpression(@"[A-Za-z]{1,40}", ErrorMessage = "Invalid name")]
         public string Name { get; set; } = null!;
@@ -22,5 +25,7 @@ namespace SmartWorkoutDataAccess.Entities
         [Range(1, 300, ErrorMessage = "Weight should be between 1 and 300")]
         public double? Weight { get; set; }
         public ICollection<Workout> Workouts { get; set; } = new List<Workout>();
+        public Role Role { get; set; } = null!;
     }
+
 }

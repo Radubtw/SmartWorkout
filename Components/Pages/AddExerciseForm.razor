@@ -6,6 +6,9 @@
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
 
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Role2Policy")]
+
 <div class="form_container">
     <div class="form_title">Add Exercise</div>
 

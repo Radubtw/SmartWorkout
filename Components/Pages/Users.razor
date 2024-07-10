@@ -3,14 +3,18 @@
 @inject NavigationManager NavManager
 @inject IJSRuntime JSRuntime
 @inject IMatDialogService MatDialogService
-
 @rendermode InteractiveServer
+
 @using BlazorBootstrap
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
-
 @using SmartWorkoutDataAccess.Repositories
+
 @using MatBlazor
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Role2Policy")]
+
 <PageTitle>Users</PageTitle>
 <div class="header">
     <div class="title">Users</div>
@@ -22,14 +26,7 @@
         <button type="button" class="add_user_button" @onclick="AddUser">Add User</button>
     </div>
 </div>
-@if (DisplayAlert)
-{
-    <div>
-        <Alert @ref="warningAlert" Color="AlertColor.Warning">
-            <strong>Holy guacamole!</strong> You should check in on some of those fields below. <Button Color="ButtonColor.Primary" @onclick="CloseAlert">Close</Button>
-        </Alert>
-    </div>
-}
+
 @if (users == null)
 {
     <p><em>Loading...</em></p>
@@ -79,7 +76,7 @@ else
                     </div>
                 <div class="buttons_div">
                     <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Edit</button>
-                    <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Delete</button>
+                    <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Remove</button>
                 </div>
                 <button type="button" class="view_workouts_button" @onclick="()=>ViewWorkouts(user.Id)">View Workouts</button>
             </div>
@@ -90,6 +87,9 @@ else
 
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     private IEnumerable<User>? users;
     private string searchQuery = "";
     private int userIdToDelete;
@@ -98,10 +98,36 @@ else
     Alert warningAlert;
     private async Task CloseAlert() => await warningAlert?.CloseAsync();
 
+    public string user_id = "0";
+
+    private async Task GetUserId()
+    {
+        var authenticationState = await authenticationStateTask;
+        var user = authenticationState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null)
+            {
+                user_id = userIdClaim.Value;
+            }
+            else
+            {
+                user_id = "User ID claim not found";
+            }
+        }
+        else
+        {
+            user_id = "Not authenticated";
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        users = await user_repo.GetAll();
+        await GetUserId();
+        users = (await user_repo.GetAll())
+                .Where(u => u.Trainer_Id == Convert.ToInt32(user_id));
     }
     void AddUser()
     {
@@ -114,8 +140,10 @@ else
 
     async void DeleteUser(int id)
     {
-        DisplayAlert = true;
-        user_repo.Delete(id);
+        User temp_user = await user_repo.GetById(id);
+        temp_user.Trainer_Id = 0;
+        user_repo.Update(temp_user);
+        //user_repo.Delete(id);
         NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
         StateHasChanged();
     }
@@ -127,11 +155,12 @@ else
     {
         if (string.IsNullOrWhiteSpace(searchQuery))
         {
-            users = await user_repo.GetAll();
+            users = (await user_repo.GetAll())
+                .Where(u => u.Trainer_Id == Convert.ToInt32(user_id));
         }
         else
         {
-            users = (await user_repo.GetAll())
+            users = (await user_repo.GetAll()).Where(u => u.Trainer_Id == Convert.ToInt32(user_id))
                 .Where(u => u.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                             u.Surname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                             u.Id.ToString().Equals(searchQuery, StringComparison.OrdinalIgnoreCase))

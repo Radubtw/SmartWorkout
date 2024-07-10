@@ -71,6 +71,23 @@ namespace SmartWorkoutDataAccess.Migrations
                     b.ToTable("Exercise_Log", (string)null);
                 });
 
+            modelBuilder.Entity("SmartWorkoutDataAccess.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("SmartWorkoutDataAccess.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -91,20 +108,31 @@ namespace SmartWorkoutDataAccess.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<int>("Trainer_Id")
+                        .HasColumnType("int");
+
                     b.Property<double?>("Weight")
                         .HasPrecision(2)
                         .HasColumnType("float(2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -154,6 +182,17 @@ namespace SmartWorkoutDataAccess.Migrations
                     b.Navigation("Workout");
                 });
 
+            modelBuilder.Entity("SmartWorkoutDataAccess.Entities.User", b =>
+                {
+                    b.HasOne("SmartWorkoutDataAccess.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("SmartWorkoutDataAccess.Entities.Workout", b =>
                 {
                     b.HasOne("SmartWorkoutDataAccess.Entities.User", "User")
@@ -169,6 +208,11 @@ namespace SmartWorkoutDataAccess.Migrations
             modelBuilder.Entity("SmartWorkoutDataAccess.Entities.Exercise", b =>
                 {
                     b.Navigation("Exercise_Logs");
+                });
+
+            modelBuilder.Entity("SmartWorkoutDataAccess.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("SmartWorkoutDataAccess.Entities.User", b =>

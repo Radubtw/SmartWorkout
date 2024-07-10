@@ -1,0 +1,86 @@
+﻿.form_container {
+    border-radius: 25px;
+    background: #333399;
+    padding: 20px;
+    margin-top: 100px; /* Adjust as needed */
+    width: fit-content;
+    margin: 0 auto; /* Center horizontally */
+    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Form Title */
+.form_title {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: fit-content;
+    margin-right: 20px; /* Adjust as needed for spacing */
+}
+
+/* Form Inputs */
+.form_input {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+    .form_input > div {
+        color: white;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form_input input[type="text"],
+    .form_input input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        background-color: #f0f0f0; /* Light gray background */
+        color: #333399; /* Dark purple text color */
+        box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2); /* Inset shadow for depth */
+    }
+
+        .form_input input[type="text"]:focus,
+        .form_input input[type="number"]:focus {
+            outline: none;
+            background-color: #ffffff; /* White background on focus */
+        }
+
+/* Form Buttons */
+.submit_button {
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+    .submit_button:hover {
+        background-color: #3a6682; /* Darker blue on hover */
+    }
+
+.cancel_button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+    .cancel_button:hover {
+        background-color: #e60000; /* Darker blue on hover */
+    }

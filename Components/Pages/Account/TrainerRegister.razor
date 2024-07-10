@@ -1,13 +1,13 @@
-﻿@page "/addUserForm"
+﻿@page "/TrainerRegister"
 @using SmartWorkoutDataAccess.Entities
 @using SmartWorkoutDataAccess
 @using SmartWorkoutDataAccess.Repositories
 @inject IGenericRepository<User> user_repo
 @inject NavigationManager NavManager
-@rendermode InteractiveServer 
+@rendermode InteractiveServer
 
 <div class="form_container">
-    <div class="form_title">Add User</div>
+    <div class="form_title">Register</div>
 
     <EditForm Model="@user" OnValidSubmit="@Submit" FormName="user_add">
         <DataAnnotationsValidator />
@@ -23,12 +23,17 @@
             <ValidationMessage For="@(() => user.Surname)" />
         </div>
         <div class="form_input">
-            <div>Phone</div>
-            <InputText @bind-Value="user.Phone" />
-        </div>
-        <div class="form_input">
             <div>Email</div>
             <InputText @bind-Value="user.Email" />
+        </div>
+        <div class="form_input">
+            <div>Password</div>
+            <InputText @bind-Value="user.Password" type="password" />
+            <ValidationMessage For="@(() => user.Password)" />
+        </div>
+        <div class="form_input">
+            <div>Phone</div>
+            <InputText @bind-Value="user.Phone" />
         </div>
         <div class="form_input">
             <div>Age</div>
@@ -38,8 +43,9 @@
             <div>Weight</div>
             <InputNumber @bind-Value="user.Weight" />
         </div>
-        <button class="add_button" type="submit">Add</button>
-        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+        <div class="mb-3 d-grid gap-2">
+            <button class="add_button" type="submit">Register</button>
+        </div>
     </EditForm>
 </div>
 
@@ -47,13 +53,11 @@
     User user = new User();
     void Submit()
     {
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password.ToLower());
+        user.Password = passwordHash;
+        user.RoleId = 2;
         user_repo.Add(user);
         user_repo.Save();
-        NavManager.NavigateTo("/users");
-    }
-    void Cancel()
-    {
-        NavManager.NavigateTo("/users");
-
+        NavManager.NavigateTo("/");
     }
 }

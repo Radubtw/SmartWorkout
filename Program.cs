@@ -3,11 +3,34 @@ using SmartWorkoutDataAccess;
 using SmartWorkoutDataAccess.Repositories;
 using SmartWorkoutDataAccess.Entities;
 using MatBlazor;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container.   
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "auth_token";
+        options.LoginPath = "/login";
+        options.Cookie.MaxAge = TimeSpan.FromMinutes(30);
+        options.AccessDeniedPath = "/accessDenied";
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthorizationCore(options =>
+{
+    options.AddPolicy("Role2Policy", policy => policy.RequireClaim(ClaimTypes.Role, "2"));
+    options.AddPolicy("Role1Policy", policy => policy.RequireClaim(ClaimTypes.Role, "1"));
+
+});
+
 builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
 builder.Services.AddScoped<IGenericRepository<Exercise>, ExerciseRepository>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
@@ -38,6 +61,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

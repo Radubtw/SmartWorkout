@@ -1,0 +1,155 @@
+﻿@page "/userDetails"
+
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+@inject IMatDialogService MatDialogService
+@rendermode InteractiveServer
+
+@using BlazorBootstrap
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+
+@using MatBlazor
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Authentication
+
+
+<PageTitle>User</PageTitle>
+<div class="header">
+    <div class="title">My account</div>
+</div>
+
+@if (user == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <div class="image">
+            <img src="/Images/User_icon.png" alt="User Image" />
+        </div>
+        <div class="details">
+            <div class="component">Name: @user.Name</div>
+            <div class="component">Surname: @user.Surname</div>
+            <div class="component">
+                Phone: @if (user.Phone != null)
+                {
+                    @user.Phone
+                }
+                else
+                {
+                    <span>No data</span>
+                }
+            </div>
+            <div class="component">
+                Email: @if (user.Email != null)
+                {
+                    @user.Email
+                }
+                else
+                {
+                    <span>No data</span>
+                }
+            </div>
+            <div class="component">
+                Age: @if (user.Age != null)
+                {
+                    @user.Age
+                }
+                else
+                {
+                    <span>No data</span>
+                }
+            </div>
+            <div class="component">
+                Weight: @if (user.Weight != null)
+                {
+                    @user.Weight
+                }
+                else
+                {
+                    <span>No data</span>
+                }
+            </div>
+            <div class="component">
+                Trainer: @if (user.Trainer_Id == 0 || user.Trainer_Id == null)
+                {
+                    <span>No trainer</span>
+                }
+                else
+                {
+                    <span>@(trainer.Name + " " + trainer.Surname)</span>                    
+                }
+            </div>
+            <div class="buttons_div">
+                <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Edit</button>
+                <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+}
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [CascadingParameter]
+    public HttpContext HttpContext { get; set; }
+    private User user = new User();
+    private User trainer = new User();
+    string user_id;
+    private string searchQuery = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUserId();
+        user = await user_repo.GetById(Convert.ToInt32(user_id));
+        if(user.Trainer_Id != 0 || user.Trainer_Id != null)
+        {
+            await GetTrainer();
+        }
+    }
+    private async Task GetTrainer()
+    {
+        trainer = await user_repo.GetById(user.Trainer_Id);
+    }
+    private async Task GetUserId()
+    {
+        var authenticationState = await authenticationStateTask;
+        var user = authenticationState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null)
+            {
+                user_id = userIdClaim.Value;
+            }
+        }
+    }
+
+    void AddUser()
+    {
+        NavManager.NavigateTo("/addUserForm");
+    }
+    void UpdateUser(int id)
+    {
+        NavManager.NavigateTo($"/updateUserDetails");
+    }
+
+    async Task DeleteUser(int id)
+    {
+        NavManager.NavigateTo("/logout");
+        //NavManager.NavigateTo("/");
+        user_repo.Delete(id);
+            
+    }
+    void ViewWorkouts(int id)
+    {
+        NavManager.NavigateTo($"/workoutsUserId={id}");
+    }
+    
+}

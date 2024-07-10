@@ -1,0 +1,117 @@
+﻿@page "/updateUserDetails"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+<div class="form_container">
+    <div class="form_title">Update User</div>
+
+    <EditForm Model="@user" OnValidSubmit="@Submit" FormName="user_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form_input">
+            <div>Name</div>
+            <InputText @bind-Value="user.Name" />
+            <ValidationMessage For="@(() => user.Name)" />
+        </div>
+        <div class="form_input">
+            <div>Surname</div>
+            <InputText @bind-Value="user.Surname" />
+            <ValidationMessage For="@(() => user.Surname)" />
+        </div>
+        <div class="form_input">
+            <div>Email</div>
+            <InputText @bind-Value="user.Email" />
+        </div>
+        <div class="form_input">
+            <div>Password</div>
+            <InputText @bind-Value="user.Password" type="password" />
+            <ValidationMessage For="@(() => user.Password)" />
+        </div>
+        <div class="form_input">
+            <div>Phone</div>
+            <InputText @bind-Value="user.Phone" />
+        </div>
+        <div class="form_input">
+            <div>Age</div>
+            <InputNumber @bind-Value="user.Age" />
+        </div>
+        <div class="form_input">
+            <div>Weight</div>
+            <InputNumber @bind-Value="user.Weight" />
+        </div>
+        <div class="form_input">
+            <div>Trainer</div>
+            <InputSelect @bind-Value="user.Trainer_Id">
+                <option value="">Select Trainer</option>
+                <option value="">Select Trainer</option>
+                <option value=0>No trainer</option>
+                @if (trainers != null)
+                {
+                    @foreach (var trainer in trainers)
+                    {
+                        <option value="@trainer.Id">@(trainer.Name + " " + trainer.Surname)</option>
+                    }
+                }
+                else
+                {
+                    <option disabled>Loading trainers...</option>
+                }
+            </InputSelect>
+        </div>
+        <button class="update_button" type="submit">Edit</button>
+        <button class="cancel_button" type="button" @onclick="Cancel">Cancel</button>
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private User user = new User();
+    private string user_id;
+    private IEnumerable<User> trainers;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUserId();
+        user = await user_repo.GetById(Convert.ToInt32(user_id));
+        trainers = (await user_repo.GetAll())
+                .Where(u => u.RoleId == 2)
+                .ToList();
+    }
+    void Submit()
+    {
+        user_repo.Update(user);
+        NavManager.NavigateTo("/userdetails");
+    }
+    void Cancel()
+    {
+        NavManager.NavigateTo("/userdetails");
+
+    }
+    private async Task GetUserId()
+    {
+        var authenticationState = await authenticationStateTask;
+        var user = authenticationState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null)
+            {
+                user_id = userIdClaim.Value;
+            }
+            else
+            {
+                user_id = "User ID claim not found";
+            }
+        }
+        else
+        {
+            user_id = "Not authenticated";
+        }
+    }
+}

@@ -1,0 +1,88 @@
+﻿@page "/Register"
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess
+@using SmartWorkoutDataAccess.Repositories
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager
+@rendermode InteractiveServer 
+
+<div class="form_container">
+    <div class="form_title">Register</div>
+
+    <EditForm Model="@user" OnValidSubmit="@Submit" FormName="user_add">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form_input">
+            <div>Name</div>
+            <InputText @bind-Value="user.Name" />
+            <ValidationMessage For="@(() => user.Name)" />
+        </div>
+        <div class="form_input">
+            <div>Surname</div>
+            <InputText @bind-Value="user.Surname" />
+            <ValidationMessage For="@(() => user.Surname)" />
+        </div>
+        <div class="form_input">
+            <div>Email</div>
+            <InputText @bind-Value="user.Email" />
+        </div>
+        <div class="form_input">
+            <div>Password</div>
+            <InputText @bind-Value="user.Password" type="password" />
+            <ValidationMessage For="@(() => user.Password)" />
+        </div>
+        <div class="form_input">
+            <div>Phone</div>
+            <InputText @bind-Value="user.Phone" />
+        </div>
+        <div class="form_input">
+            <div>Age</div>
+            <InputNumber @bind-Value="user.Age" />
+        </div>
+        <div class="form_input">
+            <div>Weight</div>
+            <InputNumber @bind-Value="user.Weight" />
+        </div>
+         <div class="form_input">
+            <div>Trainer</div>
+            <InputSelect @bind-Value="user.Trainer_Id">
+                <option value="">Select Trainer</option>
+                <option value=0>No trainer</option>
+                @if(trainers != null)
+                {
+                    @foreach (var trainer in trainers)
+                    {
+                        <option value="@trainer.Id">@(trainer.Name + " " + trainer.Surname)</option>
+                    }
+                }
+                else
+                {
+                    <option disabled>Loading trainers...</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="mb-3 d-grid gap-2">
+            <button class="add_button" type="submit">Register</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private IEnumerable<User> trainers;
+    User user = new User();
+    protected override async Task OnInitializedAsync()
+    {
+        trainers = (await user_repo.GetAll())
+                .Where(u => u.RoleId == 2)
+                .ToList();
+    }
+    void Submit()
+    {
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password.ToLower());
+        user.Password = passwordHash;
+        user.RoleId = 1;
+        user_repo.Add(user);
+        user_repo.Save();
+        NavManager.NavigateTo("/");
+    }
+}

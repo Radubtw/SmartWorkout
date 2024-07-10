@@ -5,7 +5,8 @@
 @using SmartWorkoutDataAccess.Repositories
 @inject IGenericRepository<Exercise> exercise_repo
 @inject NavigationManager NavManager
-
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Role2Policy")]
 <PageTitle>Exercises</PageTitle>
 <div class="header">
     <div class="title">Exercises</div>

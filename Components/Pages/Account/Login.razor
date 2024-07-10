@@ -1,0 +1,62 @@
+﻿@page "/login"
+@using SmartWorkout.Components.Models
+@using SmartWorkoutDataAccess.Repositories
+@using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
+@using SmartWorkoutDataAccess.Entities
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@inject IGenericRepository<User> user_repo
+@inject NavigationManager NavManager;
+<div class="form_container">
+    <div class="form_title">Login</div>
+    <EditForm Model ="@Model" OnValidSubmit="Authenticate" FormName="LoginForm">
+        <DataAnnotationsValidator/>
+        <div class="form_input">
+            <div>Email</div>
+            <InputText @bind-Value="Model.Email" class="form-control" placeholder="Email"/>
+            <ValidationMessage For="() => Model.Email"/>
+        </div>
+        <div class="form_input">
+            <div>Password</div>
+            <InputText @bind-Value="Model.Password" class="form-control" placeholder="Password" type="password" />
+            <ValidationMessage For="() => Model.Password" />
+        </div>
+        <div class="mb-3 d-grid gap-2">
+            <button type="submit" class="submit_button">Login</button>
+        </div>
+    </EditForm>
+</div>
+
+
+
+
+@code {
+    [CascadingParameter]
+    public HttpContext? HttpContext{ get; set; }
+    [SupplyParameterFromForm]
+    public LoginModel Model { get; set; } = new();
+
+    private string? errorMessage;
+
+    private async Task Authenticate()
+    {
+        var userAccount = (await user_repo.GetAll()).Where(x => x.Email == Model.Email).FirstOrDefault();   
+        if (userAccount is null || !BCrypt.Net.BCrypt.Verify(Model.Password.ToLower(), userAccount.Password))
+        {
+            errorMessage = "Invalid Email or Password";
+            return;
+        }
+        var claims = new List<Claim>
+        {
+            new Claim("UserID", userAccount.Id.ToString()),
+            new Claim(ClaimTypes.Name, Model.Email),
+            new Claim(ClaimTypes.Role, userAccount.RoleId.ToString())
+        };
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
+        await HttpContext.SignInAsync(principal);
+        NavManager.NavigateTo("/");
+    }
+}
