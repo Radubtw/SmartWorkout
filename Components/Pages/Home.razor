@@ -1,7 +1,118 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authorization
+@using SmartWorkoutDataAccess.Entities
+@using SmartWorkoutDataAccess.Repositories
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IUserRepository user_repo
+@inject IWorkoutRepository workout_repo
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
-<div class="title">Home</div>
+<div class="header">
+    <div class="title">Home</div>
+</div>
 
+<AuthorizeView>
+    <NotAuthorized>
+        <div class="unauthorized-message">
+            Welcome! Create an account or Login into an existing one from the Sidemenu to use SmartWorkout!
+        </div>
+    </NotAuthorized>
+    <Authorized>
+        @if (user != null)
+        {
+            @if (user.RoleId == 1)
+            {
+                <div class="welcome-message">
+                    <h2>Welcome back, @user.Name!</h2>
+                    <p>Let's crush those fitness goals together.</p>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <h3>Workouts Completed</h3>
+                        <p>@workouts_completed</p>
+                    </div>
+                </div>
+                <div class="motivation">
+                    <p>"The only bad workout is the one that didn't happen."</p>
+                    <p>Stay strong and keep pushing forward!</p>
+                </div>
+            }
+            else if (user.RoleId == 2)
+            {
+                <div class="trainer-welcome-message">
+                    <h2>Welcome back, Trainer @user.Name!</h2>
+                    <p>Ready to guide your trainees to success?</p>
+                </div>
+                <div class="trainer-stats">
+                    <div class="trainer-stat-item">
+                        <h3>Workouts Completed</h3>
+                        <p>@workouts_completed</p>
+                    </div>
+                    <div class="trainer-stat-item">
+                        <h3>Number of Trainees</h3>
+                        <p>@trainees_count</p>
+                    </div>
+                </div>
+                <div class="trainer-motivation">
+                    <p>"The best trainers inspire others to be their best."</p>
+                    <p>Lead with passion and dedication!</p>
+                </div>
+            }
+        }
+    </Authorized>
+</AuthorizeView>
 
+@code {
+    private User? user;
+    private string userId = "0";
+    private int workouts_completed;
+    private int trainees_count;
+    private IEnumerable<Workout>? workouts;
+    private IEnumerable<User>? trainees;
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUserId();
+        if (userId != "0")
+        {
+            int userId_int = Convert.ToInt32(userId);
+            user = await user_repo.GetById(userId_int);
+
+            if (user != null)
+            {
+                workouts = await workout_repo.GetWorkoutsByUserId(userId_int);
+                workouts_completed = workouts.Count();
+                if (user.RoleId == 2)
+                {
+                    trainees = await user_repo.GetUsersByTrainerId(userId_int);
+                    trainees_count = trainees.Count();
+                }
+            }
+        }
+    }
+
+    private async Task GetUserId()
+    {
+        var authenticationState = await authenticationStateTask;
+        var user = authenticationState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null)
+            {
+                userId = userIdClaim.Value;
+            }
+            else
+            {
+                userId = "0";
+            }
+        }
+    }
+}

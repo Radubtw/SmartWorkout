@@ -32,6 +32,7 @@ builder.Services.AddAuthorizationCore(options =>
 });
 
 builder.Services.AddScoped<IGenericRepository<User>, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGenericRepository<Exercise>, ExerciseRepository>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddScoped<IExercise_Log_Repository, Exercise_Log_Repository>();

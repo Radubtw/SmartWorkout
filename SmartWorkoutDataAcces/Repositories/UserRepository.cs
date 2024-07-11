@@ -35,6 +35,12 @@ namespace SmartWorkoutDataAccess.Repositories
         {
             return await context.Users.FirstOrDefaultAsync(e => e.Id == id);
         }
+        public async Task<IEnumerable<User>> GetUsersByTrainerId(int id)
+        {
+            return await context.Users
+                            .Where(u => u.Trainer_Id == id)
+                            .ToListAsync();
+        }
         public async Task<User> GetUserByName(string name)
         {
             return await context.Users.FirstOrDefaultAsync(e => string.Equals(e.Name, name));

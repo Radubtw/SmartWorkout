@@ -43,11 +43,9 @@
             <div>Weight</div>
             <InputNumber @bind-Value="user.Weight" />
         </div>
-        <div class="form_input">
+        <div class="form_input">    
             <div>Trainer</div>
             <InputSelect @bind-Value="user.Trainer_Id">
-                <option value="">Select Trainer</option>
-                <option value="">Select Trainer</option>
                 <option value=0>No trainer</option>
                 @if (trainers != null)
                 {
@@ -84,6 +82,8 @@
     }
     void Submit()
     {
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password.ToLower());
+        user.Password = passwordHash;
         user_repo.Update(user);
         NavManager.NavigateTo("/userdetails");
     }

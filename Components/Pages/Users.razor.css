@@ -73,40 +73,23 @@ div.component {
     color:white;
     margin-left: 20px;
 }
-.buttons_div {
-    display: flex;
-    align-items: center;
-    margin-top:10px;
-    margin-bottom: 20px;
-    width:170px;
-}
 
 .delete_button {
     background-color: #ff4d4d; /* Red background color */
     color: white; /* White text color */
     border: none; /* Remove border */
-    padding: 10px 20px; /* Padding inside the button */
     margin-left: 10px;
+    padding: 10px 20px; /* Padding inside the button */
     border-radius: 20px; /* Rounded corners */
     cursor: pointer; /* Cursor style on hover */
     font-weight: bold;
+    width: 170px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
     .delete_button:hover {
         background-color: #e60000; /* Darker red on hover */
-    }
-.update_button {
-    background-color: #4682b4; /* Red background color */
-    color: white; /* White text color */
-    border: none; /* Remove border */
-    margin-left:10px;
-    padding: 10px 20px; /* Padding inside the button */
-    border-radius: 20px; /* Rounded corners */
-    cursor: pointer; /* Cursor style on hover */
-    font-weight: bold;
-}
-    .update_button:hover {
-        background-color: #3a6682; /* Darker red on hover */
     }
 .view_workouts_button {
     background-color: #4682b4; /* Red background color */
@@ -117,7 +100,8 @@ div.component {
     border-radius: 20px; /* Rounded corners */
     cursor: pointer; /* Cursor style on hover */
     font-weight: bold;
-    width:170px;
+    margin-top: 10px;
+    width: 170px;
 }
 
     .view_workouts_button:hover {

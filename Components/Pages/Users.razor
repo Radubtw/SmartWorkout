@@ -1,4 +1,4 @@
-﻿@page "/users"
+﻿@page "/my_clients"
 @inject IGenericRepository<User> user_repo
 @inject NavigationManager NavManager
 @inject IJSRuntime JSRuntime
@@ -15,15 +15,14 @@
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Policy = "Role2Policy")]
 
-<PageTitle>Users</PageTitle>
+<PageTitle>My Trainees</PageTitle>
 <div class="header">
-    <div class="title">Users</div>
+    <div class="title">My Trainees</div>
     <div class="search_add_container">
         <div class="search_container">
             <input class="search_input" @bind="searchQuery" placeholder="Search..." />
             <button class="search_button" @onclick="Search">Search</button>
         </div>
-        <button type="button" class="add_user_button" @onclick="AddUser">Add User</button>
     </div>
 </div>
 
@@ -74,11 +73,8 @@ else
                         <span>No data</span>
                     }
                     </div>
-                <div class="buttons_div">
-                    <button type="button" class="update_button" @onclick="() => UpdateUser(user.Id)">Edit</button>
-                    <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Remove</button>
-                </div>
                 <button type="button" class="view_workouts_button" @onclick="()=>ViewWorkouts(user.Id)">View Workouts</button>
+                <button type="button" class="delete_button" @onclick="() => DeleteUser(user.Id)">Remove</button>
             </div>
         </div>
     }

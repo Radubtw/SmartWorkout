@@ -40,22 +40,25 @@ body {
 .buttons_div {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 
 .button {
-    background-color: #4682b4; /* Red background color */
+    background-color: #4682b4; /* Blue background color */
     color: white; /* White text color */
     border: none; /* Remove border */
-    padding: 10px 20px; /* Padding inside the button */
+    padding: 15px 30px; /* Increased padding for height and width */
     margin-left: 10px;
     border-radius: 20px; /* Rounded corners */
     cursor: pointer; /* Cursor style on hover */
     font-weight: bold;
     width: fit-content;
+    min-width: 500px; /* Ensure a minimum width */
+    text-align: center; /* Center align text */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
 
     .button:hover {
-        background-color: #3a6682; /* Darker red on hover */
+        background-color: #3a6682; /* Darker blue on hover */
     }

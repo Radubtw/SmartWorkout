@@ -10,7 +10,7 @@
 @inject NavigationManager NavManager;
 <div class="form_container">
     <div class="form_title">Login</div>
-    <EditForm Model ="@Model" OnValidSubmit="Authenticate" FormName="LoginForm">
+    <EditForm Model ="@Model" OnSubmit="Authenticate" FormName="LoginForm">
         <DataAnnotationsValidator/>
         <div class="form_input">
             <div>Email</div>

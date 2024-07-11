@@ -30,9 +30,7 @@
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href=@{
-                        $"/userdetails"
-}>
+                    <NavLink class="nav-link" href=@{$"/userdetails"}>
                         <img src="Images/User_icon_white.png" alt="Users" class="nav-icon" /> My Account
                     </NavLink>
                 </div>
@@ -48,8 +46,8 @@
                 </div>
 
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="users">
-                        <img src="Images/User_icon_white.png" alt="Users" class="nav-icon" /> Users
+                    <NavLink class="nav-link" href="@{$"/my_clients"}">
+                        <img src="Images/User_icon_white.png" alt="Users" class="nav-icon" /> My Trainees
                     </NavLink>
                 </div>
             </Authorized>

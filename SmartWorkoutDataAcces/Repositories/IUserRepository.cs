@@ -12,5 +12,6 @@ namespace SmartWorkoutDataAccess.Repositories
     {
         Task<User> GetUserByName(string name);
         Task<User> GetUserBySurname(string surname);
+        Task<IEnumerable<User>> GetUsersByTrainerId(int id);
     }
 }

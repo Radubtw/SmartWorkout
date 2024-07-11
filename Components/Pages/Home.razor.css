@@ -1,14 +1,114 @@
-﻿.title {
+﻿/* General Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 70px;
+    border-radius: 25px;
+    background-color: #333399;
+    box-shadow: -5px 5px 0px rgba(33, 33, 33, 0.8), -10px 10px 0px rgba(33, 33, 33, 0.5), -15px 15px 0px rgba(33, 33, 33, 0.3), -20px 20px 0px rgba(33, 33, 33, 0.1);
+    height:fit-content;
+}
+
+/* Title Section */
+.title {
     border-radius: 25px;
     background: #333399;
     padding: 20px;
     width: fit-content;
-    box-shadow: -10px 10px 0px rgba(33, 33, 33, 1), -20px 20px 0px rgba(33, 33, 33, 0.7), -30px 30px 0px rgba(33, 33, 33, 0.4), -40px 40px 0px rgba(33, 33, 33, 0.1);
     font-size: 50px;
     font-weight: bold;
     color: white;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 100px;
+    height: fit-content;
 }
+
+/* Unauthorized Message */
+.unauthorized-message {
+    background-color: #333399; /* Light Steel Blue */
+    color: white; /* Medium Slate Blue */
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: -5px 5px 0px rgba(33, 33, 33, 0.8), -10px 10px 0px rgba(33, 33, 33, 0.5), -15px 15px 0px rgba(33, 33, 33, 0.3), -20px 20px 0px rgba(33, 33, 33, 0.1);
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Welcome Message */
+.welcome-message, .trainer-welcome-message {
+    background-color: #333399; /* Light Steel Blue */
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: -5px 5px 0px rgba(33, 33, 33, 0.8), -10px 10px 0px rgba(33, 33, 33, 0.5), -15px 15px 0px rgba(33, 33, 33, 0.3), -20px 20px 0px rgba(33, 33, 33, 0.1);
+    color: white; /* Medium Slate Blue */
+}
+
+    .welcome-message h2, .trainer-welcome-message h2 {
+        font-size: 32px;
+        color: white; /* Medium Slate Blue */
+        margin-bottom: 10px;
+    }
+
+    .welcome-message p, .trainer-welcome-message p {
+        font-size: 18px;
+        margin: 0;
+    }
+
+/* Stats Container */
+.stats-container, .trainer-stats {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+/* Stat Item */
+.stat-item, .trainer-stat-item {
+    background: #333399; /* Light Steel Blue */
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    box-shadow: -5px 5px 0px rgba(33, 33, 33, 0.8), -10px 10px 0px rgba(33, 33, 33, 0.5), -15px 15px 0px rgba(33, 33, 33, 0.3), -20px 20px 0px rgba(33, 33, 33, 0.1);
+    margin: 10px;
+    color: white; /* Medium Slate Blue */
+}
+
+    .stat-item h3, .trainer-stat-item h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .stat-item p, .trainer-stat-item p {
+        font-size: 28px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+/* Motivation */
+.motivation, .trainer-motivation {
+    background-color: #333399; /* Light Steel Blue */
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: -5px 5px 0px rgba(33, 33, 33, 0.8), -10px 10px 0px rgba(33, 33, 33, 0.5), -15px 15px 0px rgba(33, 33, 33, 0.3), -20px 20px 0px rgba(33, 33, 33, 0.1);
+    text-align: center;
+    color: white; /* Medium Slate Blue */
+}
+
+    .motivation p, .trainer-motivation p {
+        font-size: 18px;
+        margin: 10px 0;
+    }
